@@ -1,32 +1,7 @@
+# The server address that to deploy freeradius/pppoe/vpn services
+[server]
 127.0.0.1
 
-[server-freeradius]
-
-[server-pppoe]
-
-[server-vpn-l2tp]
-
-[server-vpn-strongswan]
-
-[server-vpn-pptp]
-
-[server-vpn-pptp-use-mppe]
-
-[server-vpn-openvpn]
-
-[server-vpn-openvpn-peap]
-
-[server-vpn-openvpn-ttls]
-
-[server-vpn-openconnect]
-
-[server-vpn-vpnc]
-
-[all-servers-vpn-pptp:children]
-server-vpn-pptp
-server-vpn-pptp-use-mppe
-
-[all-servers-vpn-openvpn:children]
-server-vpn-openvpn
-server-vpn-openvpn-peap
-server-vpn-openvpn-ttls
+# The OpenWRT router address, if not just left empty and the related test cases will be ignored
+[router]
+# 192.168.1.1 ansible_port=1022

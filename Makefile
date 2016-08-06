@@ -1,66 +1,56 @@
-# SERVER_ADDR is the ssh host address that to deploy pppoe/vpn services
-SERVER_ADDR=
-
-# ROUTER_ADDR is the OpenWRT router address that to deploy freeradius service
-ROUTER_ADDR=
-
 # ANSIBLE_LOCAL control if ansible use local connection type instead
-# of ssh which means SERVER_ADDR and ROUTER_ADDR will be dropped, for
-# example if want deploy services local just run like "sudo make
-# deploy-server ANSIBLE_LOCAL=1"
+# of ssh, for example if want deploy services local just run like
+# "sudo make deploy_services ANSIBLE_LOCAL=1"
 ANSIBLE_LOCAL=
 ifdef ANSIBLE_LOCAL
 	ANSIBLE_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible --inventory ./hosts --connection local
-	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --inventory ./production --connection local
+	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --inventory ./hosts --connection local
 else
 	ANSIBLE_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible --inventory ./hosts
-	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --inventory ./production
+	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --inventory ./hosts
 endif
 
 SERVICES= \
 	freeradius \
 	pppoe \
-	vpn-l2tp \
-	vpn-strongswan \
-	vpn-pptp \
-	vpn-pptp-use-mppe \
-	vpn-openvpn \
-	vpn-openvpn-peap \
-	vpn-openvpn-ttls \
-	vpn-openconnect \
-	vpn-vpnc \
+	vpn_l2tp \
+	vpn_strongswan \
+	vpn_pptp \
+	vpn_pptp_use_mppe \
+	vpn_openvpn \
+	vpn_openvpn_peap \
+	vpn_openvpn_ttls \
+	vpn_openconnect \
+	vpn_vpnc \
 
 all: 
 	@echo "=> ERROR: need argument"
 	@exit 1
 
-prepare-ssh:
-	@echo "=> fix identity file permission"
-	chmod 600 ./keys/id_rsa*
-	@echo "=> copy public ssh key to remote host"
-ifdef SERVER_ADDR
-	ssh-copy-id -i ./keys/id_rsa.pub root@$(SERVER_ADDR)
-endif
-ifdef ROUTER_ADDR
-	ssh-copy-id -i ./keys/id_rsa.pub root@$(ROUTER_ADDR)
-endif
+prepare_ssh:
 	@echo "=> NOTE: if failed, please edit /etc/ssh/sshd_config to enable option 'PermitRootLogin yes' in the ssh host side"
+	$(PLAYBOOK_CMD) ./tasks/prepare_ssh.yaml
 
-debug-ping:
+debug_ping:
 	$(ANSIBLE_CMD) all -m ping
-	$(ANSIBLE_CMD) all -a 'echo hello'
+	$(ANSIBLE_CMD) all -a 'id'
 
-deploy-server: $(addprefix deploy-service-, ${SERVICES})
+debug_list_services:
+	@for s in $(SERVICES); do echo $$s; done
 
-deploy-router:
-	echo TODO hello
-# setup-router-openwrt:
+deploy_services: $(addprefix deploy_service_, $(SERVICES))
 
-deploy-service-%:
-	echo $(subst deploy-service-,,$(@))
+deploy_service_%:
+	echo TODO
+	echo $(subst deploy_service_,,$(@))
 
-start-service-%:
-	echo $(subst start-service-,,$(@))
+start_service_%:
+	echo TODO
+	echo $(subst start_service_,,$(@))
 
-stop-service-%:
-	echo $(subst stop-service-,,$(@))
+stop_service_%:
+	echo TODO
+	echo $(subst stop_service_,,$(@))
+
+test:
+	echo TODO
