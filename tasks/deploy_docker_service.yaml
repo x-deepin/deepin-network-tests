@@ -1,0 +1,15 @@
+- hosts: server
+  gather_facts: false
+  vars:
+    service_name: vpn-pptp
+  tasks:
+  - name: Copy Docker files
+    copy:
+      src: "../dockerfiles/{{ service_name }}"
+      dest: "/tmp/dockerfiles"
+      
+  - name: Build Docker image from Dockerfile
+    docker_image:
+      name: "{{ service_name }}"
+      path: "/tmp/dockerfiles/{{ service_name }}"
+      state: present

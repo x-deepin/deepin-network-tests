@@ -1,0 +1,13 @@
+- hosts: server
+  gather_facts: false
+  vars:
+    service_name: vpn-pptp
+  tasks:
+  - name: Run Docker image
+    docker_container:
+      name: "running-{{ service_name }}"
+      image: "{{ service_name }}"
+      state: started
+      privileged: true
+      published_ports: 1723:1723
+      detach: true

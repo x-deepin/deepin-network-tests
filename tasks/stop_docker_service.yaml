@@ -1,0 +1,9 @@
+- hosts: server
+  gather_facts: false
+  vars:
+    service_name: vpn-pptp
+  tasks:
+  - name: Stop Docker container
+    docker_container:
+      name: "running-{{ service_name }}"
+      state: absent

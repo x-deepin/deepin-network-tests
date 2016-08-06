@@ -1,6 +1,6 @@
 # ANSIBLE_LOCAL control if ansible use local connection type instead
 # of ssh, for example if want deploy services local just run like
-# "sudo make deploy_services ANSIBLE_LOCAL=1"
+# "sudo make deploy-services ANSIBLE_LOCAL=1"
 ANSIBLE_LOCAL=
 ifdef ANSIBLE_LOCAL
 	ANSIBLE_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible --inventory ./hosts --connection local
@@ -10,47 +10,46 @@ else
 	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --inventory ./hosts
 endif
 
-SERVICES= \
-	freeradius \
-	pppoe \
-	vpn_l2tp \
-	vpn_strongswan \
-	vpn_pptp \
-	vpn_pptp_use_mppe \
-	vpn_openvpn \
-	vpn_openvpn_peap \
-	vpn_openvpn_ttls \
-	vpn_openconnect \
-	vpn_vpnc \
+DOCKER_SERVICES = $(shell ls -1 ./dockerfiles)
+# TODO remove
+# DOCKER_SERVICES= \
+# 	freeradius \
+#  	pppoe \
+#  	vpn-l2tp \
+#  	vpn-strongswan \
+#  	vpn-pptp \
+#  	vpn-pptp-use-mppe \
+#  	vpn-openvpn \
+#  	vpn-openvpn-peap \
+#  	vpn-openvpn-ttls \
+#  	vpn-openconnect \
+#  	vpn-vpnc \
 
 all: 
 	@echo "=> ERROR: need argument"
 	@exit 1
 
-prepare_ssh:
+prepare-ssh:
 	@echo "=> NOTE: if failed, please edit /etc/ssh/sshd_config to enable option 'PermitRootLogin yes' in the ssh host side"
 	$(PLAYBOOK_CMD) ./tasks/prepare_ssh.yaml
 
-debug_ping:
+debug-ping:
 	$(ANSIBLE_CMD) all -m ping
 	$(ANSIBLE_CMD) all -a 'id'
 
-debug_list_services:
-	@for s in $(SERVICES); do echo $$s; done
+debug-list-services:
+	@for s in $(DOCKER_SERVICES); do echo $$s; done
 
-deploy_services: $(addprefix deploy_service_, $(SERVICES))
+deploy-services: $(addprefix deploy-service-, $(DOCKER_SERVICES))
 
-deploy_service_%:
-	echo TODO
-	echo $(subst deploy_service_,,$(@))
+deploy-service-%:
+	$(PLAYBOOK_CMD) ./tasks/deploy_docker_service.yaml --extra-vars "service_name=$(subst deploy-service-,,$(@))"
 
-start_service_%:
-	echo TODO
-	echo $(subst start_service_,,$(@))
+start-service-%:
+	$(PLAYBOOK_CMD) ./tasks/start_docker_service.yaml --extra-vars "service_name=$(subst start-service-,,$(@))"
 
-stop_service_%:
-	echo TODO
-	echo $(subst stop_service_,,$(@))
+stop-service-%:
+	$(PLAYBOOK_CMD) ./tasks/stop_docker_service.yaml --extra-vars "service_name=$(subst stop-service-,,$(@))"
 
 test:
 	echo TODO

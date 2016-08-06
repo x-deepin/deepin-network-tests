@@ -1,8 +1,0 @@
-- hosts: server
-  gather_facts: false
-  tasks:
-  - name: Copy Docker files
-    docker_image:
-
-  - name: Deploy VPN/PPTP Docker image
-    docker_image:
