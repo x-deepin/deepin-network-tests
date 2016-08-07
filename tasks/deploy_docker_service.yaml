@@ -5,8 +5,8 @@
   tasks:
   - name: Copy Docker files
     copy:
-      src: "../dockerfiles/{{ service_name }}"
       dest: "/tmp/dockerfiles"
+      src: "../dockerfiles/{{ service_name }}"
       
   - name: Build Docker image from Dockerfile
     docker_image:

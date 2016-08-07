@@ -5,9 +5,10 @@
   tasks:
   - name: Run Docker image
     docker_container:
-      name: "running-{{ service_name }}"
+      detach: true
       image: "{{ service_name }}"
-      state: started
+      name: "running-{{ service_name }}"
+      network_mode: host
       privileged: true
       published_ports: 1723:1723
-      detach: true
+      state: started
