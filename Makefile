@@ -41,6 +41,9 @@ debug-ping:
 	$(ANSIBLE_CMD) all -m ping
 	$(ANSIBLE_CMD) all -a 'id'
 
+debug-gather-facts:
+	$(ANSIBLE_CMD) all -m setup
+
 debug-list-services:
 	@for s in $(DOCKER_SERVICES); do echo $$s; done
 
@@ -51,6 +54,9 @@ deploy-service-%:
 
 start-service-%:
 	$(PLAYBOOK_CMD) ./tasks/start_docker_service.yaml --extra-vars "service_name=$(subst start-service-,,$(@))"
+
+start-service-pppoe:
+	$(PLAYBOOK_CMD) ./tasks/start_docker_service_pppoe.yaml
 
 stop-service-%:
 	$(PLAYBOOK_CMD) ./tasks/stop_docker_service.yaml --extra-vars "service_name=$(subst stop-service-,,$(@))"

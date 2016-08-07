@@ -10,5 +10,6 @@
       name: "running-{{ service_name }}"
       network_mode: host
       privileged: true
-      published_ports: 1723:1723
+      # published_ports:
+      #   - 1723:1723 # pptp
       state: started

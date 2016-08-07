@@ -1,0 +1,13 @@
+- hosts: server
+  gather_facts: true
+  tasks:
+  - name: Run Docker image
+    docker_container:
+      detach: true
+      image: "pppoe"
+      name: "running-pppoe"
+      network_mode: host
+      privileged: true
+      state: started
+      env:
+        INTERFACE: "{{ ansible_default_ipv4['interface'] }}"
