@@ -14,5 +14,7 @@ COPY ./etc/ppp/chap-secrets  /etc/ppp/chap-secrets
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod 0700 /entrypoint.sh
 
+EXPOSE 1723/tcp
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["pptpd", "--fg"]

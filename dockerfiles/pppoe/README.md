@@ -9,7 +9,7 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --env INTERFACE=eth0 pppoe
+# docker run --detach --net host --privileged --publish-all --env INTERFACE=eth0 pppoe
 ```
 
 帐户信息

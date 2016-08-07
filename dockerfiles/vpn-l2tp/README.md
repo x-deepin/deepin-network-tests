@@ -9,7 +9,7 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --publish 1701:1701/udp vpn-l2tp
+# docker run --detach --net host --privileged --publish-all vpn-l2tp
 ```
 
 帐户信息

@@ -9,7 +9,7 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --publish 1723:1723 vpn-pptp
+# docker run --detach --net host --privileged --publish-all vpn-pptp
 ```
 
 帐户信息
