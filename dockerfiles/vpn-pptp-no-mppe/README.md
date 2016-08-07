@@ -1,9 +1,9 @@
-**描述**: PPTP VPN Dockerfile 配置文件
+**描述**: PPTP VPN Dockerfile 配置文件, 关闭 MPPE 选项
 
 部署
 
 ```
-# docker build --tag vpn-pptp .
+# docker build --tag vpn-pptp-no-mppe .
 ```
 
 运行
