@@ -29,6 +29,14 @@
 
 ## 准备阶段
 
+1. 修复 ssh 密钥权限
+
+   执行 git clone 操作后, keys/id_rsa 文件权限会丢失, 应首先执行下面的
+   操作进行修复, 否则 Ansible 无法正常使用
+   ```
+   $ make prepare-fix-keys-perm
+   ```
+
 1. 配置 hosts 文件
 
    编辑 hosts.example，将 server 和 router 对应的地址补充完整，然后保
@@ -38,7 +46,7 @@
    $ cp hosts.example hosts
    ```
 
-2. 配置路由器 SSH（可选，如果没有 OpenWRT 路由器可以跳过，执行测试时会忽略
+1. 配置路由器 SSH（可选，如果没有 OpenWRT 路由器可以跳过，执行测试时会忽略
    相关的测试用例）
 
    通过浏览器进入路由器，进入 System->Administration 页面，首先设置
@@ -51,7 +59,7 @@
    $ ssh -o 'IdentityFile="./keys/id_rsa"' root@192.168.1.1
    ```
 
-3. 配置服务器 SSH
+1. 配置服务器 SSH
 
    配置 ssh 服务端，编辑 /etc/ssh/sshd_config 打开选项
    'PermitRootLogin yes'，后开启 ssh、docker 服务
@@ -81,7 +89,7 @@
    $ ssh -o 'IdentityFile="./keys/id_rsa"' root@192.168.1.xxx
    ```
 
-4. 安装依赖
+1. 安装依赖
 
    **测试机**
 
@@ -108,7 +116,7 @@
    # opkg install openssh-sftp-server python wpad
    ```
 
-5. 部署 PPPoE、VPN、FreeRadius 等网络服务到服务器
+1. 部署 PPPoE、VPN、FreeRadius 等网络服务到服务器
 
    ```
    $ make deploy_services

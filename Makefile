@@ -29,6 +29,10 @@ all:
 	@echo "=> ERROR: need argument"
 	@exit 1
 
+prepare-fix-keys-perm:
+	@echo "=> Fix identity file permission"
+	chmod 0600 ./keys/id_rsa
+
 prepare-ssh:
 	@echo "=> NOTE: if failed, please edit /etc/ssh/sshd_config to enable option 'PermitRootLogin yes' in the ssh host side"
 	$(PLAYBOOK_CMD) ./tasks/prepare_ssh.yaml

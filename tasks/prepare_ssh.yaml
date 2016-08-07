@@ -2,11 +2,5 @@
   connection: local
   gather_facts: false
   tasks:
-  - name: Fix identity file permission
-    file:
-      path: ./keys/id_rsa
-      mode: 0600
-    run_once: true
-    
   - name: Copy public ssh key to remote hosts
     shell: ssh-copy-id -i ./keys/id_rsa.pub {{ ansible_user }}@{{ ansible_host }} -p {{ ansible_port }}
