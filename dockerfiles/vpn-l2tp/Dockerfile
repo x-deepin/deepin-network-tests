@@ -1,39 +1,23 @@
-# Run: /usr/bin/start-service
 # References:
-#   http://www.debian-tutorials.com/install-and-configure-pppoe-server-on-debian-squeeze
-#   http://www.howtodoityourself.org/pppoe-server-how-to-do-it-yourself.html
+#   https://github.com/hwdsl2/docker-ipsec-vpn-server
+#   https://github.com/mcassiano/docker-l2tp-ipsec-vpn
+#   https://github.com/philpl/docker-strongswan
+#   https://help.ubuntu.com/community/L2TPServer
+#   https://raymii.org/s/tutorials/IPSEC_L2TP_vpn_with_Ubuntu_14.04.html
 
-FROM debian:sid
+FROM ubuntu:16.10
 
-#TODO: 
-# change source server
-# RUN echo 'Server = http://mirror.bjtu.edu.cn/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && apt-get install -y iptables xl2tpd
 
-# install packages
-RUN apt-get update
-RUN apt-get install rp-pppoe
+COPY ./etc/xl2tpd/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
+COPY ./etc/ppp/options.xl2tpd /etc/ppp/options.xl2tpd
+COPY ./etc/ppp/chap-secrets  /etc/ppp/chap-secrets
 
-# configuration
-RUN echo 'require-chap'          > /etc/ppp/pppoe-server-options; \
-    echo 'login'                 >> /etc/ppp/pppoe-server-options; \
-    echo 'lcp-echo-interval 10'  >> /etc/ppp/pppoe-server-options; \
-    echo 'lcp-echo-failure 2'    >> /etc/ppp/pppoe-server-options; \
-    echo 'ms-dns 8.8.8.8'        >> /etc/ppp/pppoe-server-options; \
-    echo 'ms-dns 8.8.4.4'        >> /etc/ppp/pppoe-server-options; \
-    echo 'netmask 255.255.255.0' >> /etc/ppp/pppoe-server-options; \
-    echo 'defaultroute'          >> /etc/ppp/pppoe-server-options; \
-    echo 'noipdefault'           >> /etc/ppp/pppoe-server-options; \
-    echo 'usepeerdns'            >> /etc/ppp/pppoe-server-options; \
-    echo '"test"          *        "test"         *' > /etc/ppp/chap-secrets; \
-    echo '192.168.72.100-200' > /etc/ppp/allip
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod 0700 /entrypoint.sh
 
-# runner script
-RUN echo '#!/bin/sh' > /usr/bin/start-service; \
-    echo '/usr/bin/pppoe-server -C isp -L 192.168.72.1 -p /etc/ppp/allip -I eth0' >> /usr/bin/start-service; \
-    chmod +x /usr/bin/start-service
+EXPOSE 1701/udp
 
-# sysctl net.ipv4.ip_forward=1
-# iptables -A POSTROUTING -t nat -s 10.211.55.0/24 -j MASQUERADE  
- 
-# define default command
-CMD ["/usr/bin/start-service"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD mkdir -p /var/run/xl2tpd && xl2tpd -D
