@@ -1,7 +1,7 @@
 - hosts: server
   gather_facts: true
   vars:
-    service_name: pppoe
+    service_name: vpn-l2tp-ipsec
   tasks:
   - name: Run Docker image
     docker_container:
@@ -12,4 +12,4 @@
       privileged: true
       state: started
       env:
-        INTERFACE: "{{ ansible_default_ipv4['interface'] }}"
+        IPADDRESS: "{{ ansible_default_ipv4['address'] }}"
