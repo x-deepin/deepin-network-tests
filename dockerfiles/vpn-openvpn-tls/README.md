@@ -1,24 +1,25 @@
-**描述**: OpenVPN Dockerfile 配置文件, 认证方式 Password
+**描述**: OpenVPN Dockerfile 配置文件, 认证方式 TLS
 
 部署
 
 ```
-# docker build --tag vpn-openvpn-password .
+# docker build --tag vpn-openvpn-tls .
 ```
 
 运行
 
 ```
-# docker run --detach --net host --privileged --publish-all vpn-openvpn-password
+# docker run --detach --net host --privileged --publish-all vpn-openvpn-tls
 ```
 
 帐户信息
 
 ```
-认证方式: Password
-用户名: test
-密码: test
+认证方式: TLS
 CA证书: ./etc/openvpn/easy-rsa/pki/ca.crt
+客户端证书: ./etc/openvpn/easy-rsa/pki/issued/client.crt
+客户端密钥: ./etc/openvpn/easy-rsa/pki/private/client.key
+客户端密码: test
 ```
 
 RSA 证书生成方法
