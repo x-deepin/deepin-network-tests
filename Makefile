@@ -58,9 +58,6 @@ start-service-%:
 start-service-pppoe:
 	$(PLAYBOOK_CMD) ./tasks/start_docker_service_pppoe.yaml
 
-start-service-vpn-l2tp-ipsec:
-	$(PLAYBOOK_CMD) ./tasks/start_docker_service_vpn_l2tp_ipsec.yaml
-
 stop-service-%:
 	$(PLAYBOOK_CMD) ./tasks/stop_docker_service.yaml --extra-vars "service_name=$(subst stop-service-,,$(@))"
 

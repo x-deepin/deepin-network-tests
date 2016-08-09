@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y iptables xl2tpd strongswan
 COPY ./etc/xl2tpd/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
 COPY ./etc/ppp/options.xl2tpd /etc/ppp/options.xl2tpd
 COPY ./etc/ppp/chap-secrets  /etc/ppp/chap-secrets
+COPY ./etc/ipsec.conf /etc/ipsec.conf
+COPY ./etc/ipsec.secrets /etc/ipsec.secrets
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod 0700 /entrypoint.sh
