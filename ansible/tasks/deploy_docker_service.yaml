@@ -6,7 +6,7 @@
   - name: Copy Docker files
     copy:
       dest: "/tmp/dockerfiles"
-      src: "../dockerfiles/{{ service_name }}"
+      src: "../../dockerfiles/{{ service_name }}"
       
   - name: Build Docker image from Dockerfile
     docker_image:

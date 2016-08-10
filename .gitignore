@@ -1,3 +1,3 @@
 hosts
 __*
-tasks/*.retry
+ansible/tasks/*.retry

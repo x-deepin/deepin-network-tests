@@ -3,11 +3,11 @@
 # "sudo make deploy-services ANSIBLE_LOCAL=1"
 ANSIBLE_LOCAL=
 ifdef ANSIBLE_LOCAL
-	ANSIBLE_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible --inventory ./hosts --connection local
-	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --inventory ./hosts --connection local
+	ANSIBLE_CMD=env ANSIBLE_CONFIG=./ansible/ansible.cfg ansible --inventory ./ansible/hosts --connection local
+	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible/ansible.cfg ansible-playbook --inventory ./ansible/hosts --connection local
 else
-	ANSIBLE_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible --inventory ./hosts
-	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --inventory ./hosts
+	ANSIBLE_CMD=env ANSIBLE_CONFIG=./ansible/ansible.cfg ansible --inventory ./ansible/hosts
+	PLAYBOOK_CMD=env ANSIBLE_CONFIG=./ansible/ansible.cfg ansible-playbook --inventory ./ansible/hosts
 endif
 
 DOCKER_SERVICES = $(shell ls -1 ./dockerfiles)
@@ -31,11 +31,11 @@ all:
 
 prepare-fix-keys-perm:
 	@echo "=> Fix identity file permission"
-	chmod 0600 ./keys/id_rsa
+	chmod 0600 ./ansible/keys/id_rsa
 
 prepare-ssh:
 	@echo "=> NOTE: if failed, please edit /etc/ssh/sshd_config to enable option 'PermitRootLogin yes' in the ssh host side"
-	$(PLAYBOOK_CMD) ./tasks/prepare_ssh.yaml
+	$(PLAYBOOK_CMD) ./ansible/tasks/prepare_ssh.yaml
 
 debug-ping:
 	$(ANSIBLE_CMD) all -m ping
@@ -50,19 +50,19 @@ debug-list-services:
 deploy-services: $(addprefix deploy-service-, $(DOCKER_SERVICES))
 
 deploy-service-%:
-	$(PLAYBOOK_CMD) ./tasks/deploy_docker_service.yaml --extra-vars "service_name=$(subst deploy-service-,,$(@))"
+	$(PLAYBOOK_CMD) ./ansible/tasks/deploy_docker_service.yaml --extra-vars "service_name=$(subst deploy-service-,,$(@))"
 
 start-service-%:
-	$(PLAYBOOK_CMD) ./tasks/start_docker_service.yaml --extra-vars "service_name=$(subst start-service-,,$(@))"
+	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service.yaml --extra-vars "service_name=$(subst start-service-,,$(@))"
 
 start-service-pppoe:
-	$(PLAYBOOK_CMD) ./tasks/start_docker_service_pppoe.yaml
+	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service_pppoe.yaml
 
 start-service-vpn-strongswan:
-	$(PLAYBOOK_CMD) ./tasks/start_docker_service_vpn_strongswan.yaml
+	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service_vpn_strongswan.yaml
 
 stop-service-%:
-	$(PLAYBOOK_CMD) ./tasks/stop_docker_service.yaml --extra-vars "service_name=$(subst stop-service-,,$(@))"
+	$(PLAYBOOK_CMD) ./ansible/tasks/stop_docker_service.yaml --extra-vars "service_name=$(subst stop-service-,,$(@))"
 
 test:
 	echo TODO
