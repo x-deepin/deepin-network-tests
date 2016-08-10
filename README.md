@@ -130,6 +130,8 @@ $ make test
 
 ## TODO 手动测试
 
+帐号信息, 网络拓扑结构等具体可参考 dockerfiles 目录下对应的README, 比如 PPPoE
+
 ## 测试主机分布特别说明
 
 测试无线网络功能时需要搭建 OpenWRT 路由器，测试 802.1X 企业级加密和 PPPoE

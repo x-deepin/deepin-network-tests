@@ -13,4 +13,5 @@
       name: "{{ service_name }}"
       path: "/tmp/dockerfiles/{{ service_name }}"
       pull: false
+      force: yes
       state: present
