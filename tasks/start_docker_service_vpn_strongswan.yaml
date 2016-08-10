@@ -1,0 +1,15 @@
+- hosts: server
+  gather_facts: true
+  vars:
+    service_name: vpn-strongswan
+  tasks:
+  - name: Run Docker image
+    docker_container:
+      detach: true
+      image: "{{ service_name }}"
+      name: "running-{{ service_name }}"
+      network_mode: host
+      privileged: true
+      state: started
+      env:
+        IPADDRESS: "{{ ansible_default_ipv4['address'] }}"

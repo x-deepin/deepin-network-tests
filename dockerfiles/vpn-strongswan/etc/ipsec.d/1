@@ -1,0 +1,39 @@
+unknown option --help
+usage: ca args
+
+ -verbose        - Talk alot while doing things
+ -config file    - A config file
+ -name arg       - The particular CA definition to use
+ -gencrl         - Generate a new CRL
+ -crldays days   - Days is when the next CRL is due
+ -crlhours hours - Hours is when the next CRL is due
+ -startdate YYMMDDHHMMSSZ  - certificate validity notBefore
+ -enddate YYMMDDHHMMSSZ    - certificate validity notAfter (overrides -days)
+ -days arg       - number of days to certify the certificate for
+ -md arg         - md to use, one of md2, md5, sha or sha1
+ -policy arg     - The CA 'policy' to support
+ -keyfile arg    - private key file
+ -keyform arg    - private key file format (PEM or ENGINE)
+ -key arg        - key to decode the private key if it is encrypted
+ -cert file      - The CA certificate
+ -selfsign       - sign a certificate with the key associated with it
+ -in file        - The input PEM encoded certificate request(s)
+ -out file       - Where to put the output file(s)
+ -outdir dir     - Where to put output certificates
+ -infiles ....   - The last argument, requests to process
+ -spkac file     - File contains DN and signed public key and challenge
+ -ss_cert file   - File contains a self signed cert to sign
+ -preserveDN     - Don't re-order the DN
+ -noemailDN      - Don't add the EMAIL field into certificate' subject
+ -batch          - Don't ask questions
+ -msie_hack      - msie modifications to handle all those universal strings
+ -revoke file    - Revoke a certificate (given in file)
+ -subj arg       - Use arg instead of request's subject
+ -utf8           - input characters are UTF8 (default ASCII)
+ -multivalue-rdn - enable support for multivalued RDNs
+ -extensions ..  - Extension section (override value in config file)
+ -extfile file   - Configuration file with X509v3 extentions to add
+ -crlexts ..     - CRL extension section (override value in config file)
+ -engine e       - use engine e, possibly a hardware device.
+ -status serial  - Shows certificate status given the serial number
+ -updatedb       - Updates db for expired certificates

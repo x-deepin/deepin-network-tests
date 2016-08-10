@@ -58,6 +58,9 @@ start-service-%:
 start-service-pppoe:
 	$(PLAYBOOK_CMD) ./tasks/start_docker_service_pppoe.yaml
 
+start-service-vpn-strongswan:
+	$(PLAYBOOK_CMD) ./tasks/start_docker_service_vpn_strongswan.yaml
+
 stop-service-%:
 	$(PLAYBOOK_CMD) ./tasks/stop_docker_service.yaml --extra-vars "service_name=$(subst stop-service-,,$(@))"
 
