@@ -1,0 +1,7 @@
+# The server address that to deploy freeradius/pppoe/vpn services, if not just left empty
+[server]
+192.168.1.64
+
+# The OpenWRT router address, if not just left empty
+[router]
+192.168.1.1 ansible_port=1022

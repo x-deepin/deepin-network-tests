@@ -1,0 +1,7 @@
+- hosts: router
+  gather_facts: false
+  tasks:
+  - name: Restore OpenWRT wireless settings
+    raw: mv -vf /etc/config/wireless.bak /etc/config/wireless
+
+- include: router_reload_network.yml

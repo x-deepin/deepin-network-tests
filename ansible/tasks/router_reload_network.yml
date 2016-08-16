@@ -1,0 +1,5 @@
+- hosts: router
+  gather_facts: false
+  tasks:
+  - name: Reload OpenWRT network service
+    raw: /etc/init.d/network reload

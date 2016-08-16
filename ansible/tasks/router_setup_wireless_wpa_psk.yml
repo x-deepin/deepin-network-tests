@@ -1,0 +1,12 @@
+- hosts: router
+  gather_facts: false
+  roles:
+    - openwrt_uci
+  tasks:
+  - name: Setup OpenWRT router wireless to use WPA2-PSK enterprise as security encryption
+    uci: command=set key="wireless.@wifi-iface[0].ssid" value="{{ router_wireless_ssid }}"
+  - uci: command=set key="wireless.@wifi-iface[0].encryption" value="psk2"
+  - uci: command=set key="wireless.@wifi-iface[0].key" value="{{ router_wireless_wpa_psk_password }}"
+  - raw: uci commit
+
+- include: router_reload_network.yml

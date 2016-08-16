@@ -1,3 +1,2 @@
-hosts
 __*
 ansible/tasks/*.retry

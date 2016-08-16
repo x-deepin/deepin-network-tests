@@ -1,0 +1,46 @@
+#!/bin/sh
+# wrapper for conditional setting of uci config
+# compare http://wiki.openwrt.org/doc/techref/uci
+
+# Reference: https://github.com/lefant/ansible-openwrt-uci
+# TODO: add more docs, see http://docs.ansible.com/developing_modules.html
+
+# parameters are command, key, value
+source ${1}
+
+unquoted_key="$(echo $key | sed -e s/\'//g)"
+
+# test if we need to apply a change
+case $command in
+    'get')
+        changed_ret=0
+        ;;
+    'set')
+        [ "$(uci get "$unquoted_key")" = "$value" ]
+        changed_ret=$?
+        ;;
+    'add_list')
+        uci get "$unquoted_key" 2>/dev/null |grep -q "$value"
+        changed_ret=$?
+        ;;
+esac
+
+if [ $changed_ret -eq 0 ]; then
+    changed="false"
+else
+    changed="true"
+fi
+
+if [ -z "${_ansible_check_mode}" -o "${_ansible_check_mode}" = "False" ]
+then
+    case $command in
+        'get')
+            stdout=$(uci get ${unquoted_key})
+            echo -n '{"changed": '${changed}', "stdout": "'${stdout}'", "msg": "executed uci '${command}' '${unquoted_key}'"}'
+            ;;
+        *)
+            stdout=$(uci "${command}" ${unquoted_key}="${value}")
+            echo -n '{"changed": '${changed}', "stdout": "'${stdout}'", "msg": "executed uci '${command}' '${unquoted_key}'='${value}'"}'
+            ;;
+    esac
+fi

@@ -1,0 +1,13 @@
+- hosts: router
+  gather_facts: false
+  roles:
+    - openwrt_uci
+  tasks:
+  - name: Setup OpenWRT router wireless to use WPA2-EAP/802.1X enterprise as security encryption
+    uci: command=set key="wireless.@wifi-iface[0].ssid" value="{{ router_wireless_ssid }}"
+  - uci: command=set key="wireless.@wifi-iface[0].encryption" value="wpa2"
+  - uci: command=set key="wireless.@wifi-iface[0].auth_server" value="{{ groups['server'][0] }}"
+  - uci: command=set key="wireless.@wifi-iface[0].auth_secret" value="{{ router_wireless_wpa_eap_secret }}"
+  - raw: uci commit
+
+- include: router_reload_network.yml

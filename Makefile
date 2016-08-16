@@ -29,13 +29,16 @@ all:
 	@echo "=> ERROR: need argument"
 	@exit 1
 
+list-services:
+	@for s in $(DOCKER_SERVICES); do echo $$s; done
+
 prepare-fix-keys-perm:
 	@echo "=> Fix identity file permission"
 	chmod 0600 ./ansible/keys/id_rsa
 
 prepare-ssh:
 	@echo "=> NOTE: if failed, please edit /etc/ssh/sshd_config to enable option 'PermitRootLogin yes' in the ssh host side"
-	$(PLAYBOOK_CMD) ./ansible/tasks/prepare_ssh.yaml
+	$(PLAYBOOK_CMD) ./ansible/tasks/prepare_ssh.yml
 
 debug-ping:
 	$(ANSIBLE_CMD) all -m ping
@@ -44,25 +47,43 @@ debug-ping:
 debug-gather-facts:
 	$(ANSIBLE_CMD) all -m setup
 
-debug-list-services:
-	@for s in $(DOCKER_SERVICES); do echo $$s; done
+debug-router-show-wireless-ssid:
+	$(PLAYBOOK_CMD) ./ansible/tasks/router_show_wireless_ssid.yml
 
 deploy-services: $(addprefix deploy-service-, $(DOCKER_SERVICES))
 
 deploy-service-%:
-	$(PLAYBOOK_CMD) ./ansible/tasks/deploy_docker_service.yaml --extra-vars "service_name=$(subst deploy-service-,,$(@))"
+	$(PLAYBOOK_CMD) ./ansible/tasks/deploy_docker_service.yml --extra-vars "service_name=$(subst deploy-service-,,$(@))"
 
 start-service-%:
-	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service.yaml --extra-vars "service_name=$(subst start-service-,,$(@))"
+	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service.yml --extra-vars "service_name=$(subst start-service-,,$(@))"
 
 start-service-pppoe:
-	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service_pppoe.yaml
+	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service_pppoe.yml
 
 start-service-vpn-strongswan:
-	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service_vpn_strongswan.yaml
+	$(PLAYBOOK_CMD) ./ansible/tasks/start_docker_service_vpn_strongswan.yml
 
 stop-service-%:
-	$(PLAYBOOK_CMD) ./ansible/tasks/stop_docker_service.yaml --extra-vars "service_name=$(subst stop-service-,,$(@))"
+	$(PLAYBOOK_CMD) ./ansible/tasks/stop_docker_service.yml --extra-vars "service_name=$(subst stop-service-,,$(@))"
 
-test:
+router-save-wireless-settings:
+	$(PLAYBOOK_CMD) ./ansible/tasks/router_save_wireless_settings.yml
+
+router-restore-wireless-settings:
+	$(PLAYBOOK_CMD) ./ansible/tasks/router_restore_wireless_settings.yml
+
+router-reload-network:
+	$(PLAYBOOK_CMD) ./ansible/tasks/router_reload_network.yml
+
+router-setup-wireless-wep:
+	$(PLAYBOOK_CMD) ./ansible/tasks/router_setup_wireless_wep.yml
+
+router-setup-wireless-wpa-psk:
+	$(PLAYBOOK_CMD) ./ansible/tasks/router_setup_wireless_wpa_psk.yml
+
+router-setup-wireless-wpa-eap:
+	$(PLAYBOOK_CMD) ./ansible/tasks/router_setup_wireless_wpa_eap.yml
+
+run-tests:
 	echo TODO

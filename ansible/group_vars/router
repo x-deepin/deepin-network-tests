@@ -1,0 +1,4 @@
+router_wireless_ssid: dde-daemon-network-test
+router_wireless_wep_password: 12345
+router_wireless_wpa_psk_password: 12345678
+router_wireless_wpa_eap_secret: routerpwd

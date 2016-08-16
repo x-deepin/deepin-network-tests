@@ -1,0 +1,12 @@
+- hosts: router
+  gather_facts: false
+  roles:
+    - openwrt_uci
+  tasks:
+  - name: Get OpenWRT wireless SSID
+    uci: command=get key="wireless.@wifi-iface[0].ssid"
+    register: ssid
+
+  - name: Show OpenWRT wireless SSID
+    debug: msg="ssid={{ ssid.stdout }}"
+    

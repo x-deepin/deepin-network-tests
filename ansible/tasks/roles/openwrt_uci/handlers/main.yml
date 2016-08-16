@@ -1,0 +1,7 @@
+---
+# handlers file for openwrt-uci
+- name: uci commit
+  raw: uci commit
+
+- name: reload network
+  raw: /etc/init.d/network reload  
