@@ -11,19 +11,6 @@ else
 endif
 
 DOCKER_SERVICES = $(shell ls -1 ./dockerfiles)
-# TODO remove
-# DOCKER_SERVICES= \
-# 	freeradius \
-#  	pppoe \
-#  	vpn-l2tp \
-#  	vpn-strongswan \
-#  	vpn-pptp \
-#  	vpn-pptp-use-mppe \
-#  	vpn-openvpn \
-#  	vpn-openvpn-peap \
-#  	vpn-openvpn-ttls \
-#  	vpn-openconnect \
-#  	vpn-vpnc \
 
 all: 
 	@echo "=> ERROR: need argument"
