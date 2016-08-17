@@ -56,7 +56,7 @@
    录路由器：
 
    ```
-   $ ssh -o 'IdentityFile="./keys/id_rsa"' root@192.168.1.1
+   $ ssh -o 'IdentityFile="./ansible/keys/id_rsa"' root@192.168.1.1
    ```
 
 1. 配置服务器 SSH
@@ -80,13 +80,13 @@
    在测试机运行下面的命令将公钥添加到服务器
 
    ```
-   $ make prepare_ssh
+   $ make prepare-ssh
    ```
 
    以上步骤配置成功后，执行下面的命令可以不需要密码直接登录服务器：
 
    ```
-   $ ssh -o 'IdentityFile="./keys/id_rsa"' root@192.168.1.xxx
+   $ ssh -o 'IdentityFile="./ansible/keys/id_rsa"' root@192.168.1.xxx
    ```
 
 1. 安装依赖
@@ -103,7 +103,7 @@
    # apt-get install docker.io python2-docker
    ```
 
-   因为 Ansible 依赖 python2，如果缺少相应包，可以通过 pip2 来安装
+   因为 Ansible 依赖 python2，如果缺少相应包，也可以通过 pip2 来安装
 
    ```
    # pip2 install 'docker-py>=1.7.0'
@@ -119,7 +119,7 @@
 1. 部署 PPPoE、VPN、FreeRadius 等网络服务到服务器
 
    ```
-   $ make deploy_services
+   $ make deploy-services
    ```
 
 ## TODO 运行自动化测试
@@ -141,14 +141,14 @@ $ make test
 `ANSIBLE_LOCAL=1` 选项，如
 
 ```
-$ make deploy_services ANSIBLE_LOCAL=1
+$ make deploy-services ANSIBLE_LOCAL=1
 $ make test ANSIBLE_LOCAL=1
 ```
 
 ## TODO 测试用例集合
 
 ```
-$ make debug_list_services
+$ make list-services
 ```
 
 - wired

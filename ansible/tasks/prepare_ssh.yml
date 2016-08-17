@@ -3,4 +3,4 @@
   gather_facts: false
   tasks:
   - name: Copy public ssh key to remote hosts
-    shell: ssh-copy-id -i ./keys/id_rsa.pub {{ ansible_user }}@{{ ansible_host }} -p {{ ansible_port }}
+    shell: ssh-copy-id -i ./ansible/keys/id_rsa.pub {{ ansible_user }}@{{ ansible_host }} -p {{ ansible_port }}
