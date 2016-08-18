@@ -3,6 +3,10 @@
 
 import utils
 
+# pppoe
+pppoe_username = 'test'
+pppoe_password = 'test'
+
 # vpn-l2tp
 vpn_l2tp_username = 'test'
 vpn_l2tp_password = 'test'

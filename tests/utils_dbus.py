@@ -16,6 +16,14 @@ def get_network_devices():
 def get_active_connections():
     return json.loads(dbus_network.ActiveConnections)
 
+def get_default_wired_device():
+    devices = get_network_devices()
+    wired_devices = devices.get('wired')
+    if wired_devices and len(wired_devices) > 0:
+        return wired_devices[0]['Path']
+    else:
+        return None
+
 def get_default_wireless_device():
     devices = get_network_devices()
     wireless_devices = devices.get('wireless')
