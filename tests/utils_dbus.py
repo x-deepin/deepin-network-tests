@@ -3,6 +3,7 @@
 
 import os
 import json
+import time
 
 from dbus_gen.com_deepin_daemon_Network import Network
 from dbus_gen.com_deepin_daemon_Network_ConnectionSession import ConnectionSession
@@ -32,3 +33,12 @@ def is_connection_connected(uuid):
         if active_value.get('Uuid') == uuid:
             return True
     return False
+
+def test_active_connection(testcase, uuid, device_path):
+    path = dbus_network.ActivateConnection(uuid, "/")
+    testcase.assertIsNotNone(path)
+    time.sleep(5) # wait for connection connected
+    testcase.assertTrue(is_connection_connected(uuid))
+    dbus_network.DeactivateConnection(uuid)
+    dbus_network.DeleteConnection(uuid)
+    time.sleep(5) # wait for connection deleted

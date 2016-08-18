@@ -122,6 +122,22 @@
    $ make deploy-services
    ```
 
+   如果部署失败, 有可能是获取 Docker 镜像 ubuntu:16.10 失败, 可以先到服
+   务器手动更新
+   ```
+   # docker pull ubuntu:16.10
+   ```
+
+   另外也可以单独部署指定服务, 如
+   ```
+   $ make deploy-service-openvpn-password
+   ```
+
+   当前支持的服务列表可以通过下面的命令获取
+   ```
+   $ make list-services
+   ```
+
 ## TODO 运行自动化测试
 
 ```
@@ -147,9 +163,6 @@ $ make test ANSIBLE_LOCAL=1
 
 ## TODO 测试用例集合
 
-```
-$ make list-services
-```
 
 - wired
 - wired-static-ip
