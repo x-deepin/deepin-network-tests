@@ -30,7 +30,7 @@ def create_connection(conn_type, device_path):
 def is_connection_connected(uuid):
     active_connections = get_active_connections()
     for active_path, active_value in active_connections.items():
-        if active_value.get('Uuid') == uuid:
+        if active_value.get('Uuid') == uuid and active_value.get('State') == 2:
             return True
     return False
 
