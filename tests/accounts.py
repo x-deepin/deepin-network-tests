@@ -25,3 +25,14 @@ vpn_openvpn_tls_cacert = utils.get_abs_path() + '/../dockerfiles/vpn-openvpn-tls
 vpn_openvpn_tls_clientcert = utils.get_abs_path() + '/../dockerfiles/vpn-openvpn-tls/etc/openvpn/easy-rsa/pki/issued/client.crt'
 vpn_openvpn_tls_clientkey = utils.get_abs_path() + '/../dockerfiles/vpn-openvpn-tls/etc/openvpn/easy-rsa/pki/private/client.key'
 vpn_openvpn_tls_clientpass = 'test'
+
+# vpn-pptp
+vpn_pptp_username = 'test'
+vpn_pptp_password = 'test'
+
+# vpn-strongswan
+vpn_strongswan_cacert = utils.get_abs_path() + '/../dockerfiles/vpn-strongswan/etc/ipsec.d/cacerts/ca.crt'
+vpn_strongswan_clientcert = utils.get_abs_path() + '/../dockerfiles/vpn-strongswan/etc/ipsec.d/certs/client.crt'
+vpn_strongswan_clientkey = utils.get_abs_path() + '/../dockerfiles/vpn-strongswan/etc/ipsec.d/private/client.key'
+vpn_strongswan_username = 'test'
+vpn_strongswan_password = 'test'

@@ -34,11 +34,12 @@ def is_connection_connected(uuid):
             return True
     return False
 
-def test_active_connection(testcase, uuid, device_path):
+def test_active_connection(testcase, uuid, device_path, delete_conn = True):
     path = dbus_network.ActivateConnection(uuid, "/")
     testcase.assertIsNotNone(path)
     time.sleep(5) # wait for connection connected
     testcase.assertTrue(is_connection_connected(uuid))
     dbus_network.DeactivateConnection(uuid)
-    dbus_network.DeleteConnection(uuid)
+    if delete_conn:
+        dbus_network.DeleteConnection(uuid)
     time.sleep(5) # wait for connection deleted

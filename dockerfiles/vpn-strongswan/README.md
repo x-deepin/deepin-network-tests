@@ -8,6 +8,8 @@
 
 运行
 
+**注意需要传递目标主机的 IPADDRESS, 否则无法通过 Private Key 的方式连接成功**
+
 ```
 # docker run --detach --net host --privileged --publish-all --env IPADDRESS=192.168.1.100 vpn-strongswan
 ```
