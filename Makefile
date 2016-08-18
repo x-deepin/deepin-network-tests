@@ -19,6 +19,9 @@ all:
 list-services:
 	@for s in $(DOCKER_SERVICES); do echo $$s; done
 
+get-ansible-server-host:
+	@$(ANSIBLE_CMD) server --list-hosts | sed 1d | head -1 | sed 's/^ \+//'
+
 prepare-fix-keys-perm:
 	@echo "=> Fix identity file permission"
 	chmod 0600 ./ansible/keys/id_rsa
@@ -73,4 +76,4 @@ router-setup-wireless-wpa-eap:
 	$(PLAYBOOK_CMD) ./ansible/tasks/router_setup_wireless_wpa_eap.yml
 
 run-tests:
-	echo TODO
+	./tests/main.py
