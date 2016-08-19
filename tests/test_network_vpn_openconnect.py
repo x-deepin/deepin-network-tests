@@ -21,7 +21,6 @@ class TestNetworkVpnOpenconnectCert(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-openconnect-cert")
-        pass
 
     # TODO
     @unittest.skip("openconnect auth dialog popup failed now")

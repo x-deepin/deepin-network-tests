@@ -21,7 +21,6 @@ class TestNetworkVpnOpenVpnPassword(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-openvpn-password")
-        pass
 
     def test_backend(self):
         session_path = utils_dbus.create_connection('vpn-openvpn', '/')
@@ -47,7 +46,6 @@ class TestNetworkVpnOpenVpnTls(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-openvpn-tls")
-        pass
 
     def test_backend(self):
         session_path = utils_dbus.create_connection('vpn-openvpn', '/')

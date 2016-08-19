@@ -12,7 +12,7 @@ dbus_network = Network('com.deepin.daemon.Network', '/com/deepin/daemon/Network'
 
 def get_network_devices():
     return json.loads(dbus_network.Devices)
-    
+
 def get_active_connections():
     return json.loads(dbus_network.ActiveConnections)
 
@@ -42,10 +42,23 @@ def is_connection_connected(uuid):
             return True
     return False
 
+def disconnect_default_wired_device():
+    dbus_network.DisconnectDevice(get_default_wired_device())
+    time.sleep(2)
+
+def connect_default_wired_device():
+    dbus_network.ActivateConnection(dbus_network.GetWiredConnectionUuid(get_default_wired_device()),
+                                    get_default_wired_device())
+    time.sleep(2)
+
+def disconnect_default_wireless_device():
+    dbus_network.DisconnectDevice(get_default_wireless_device())
+    time.sleep(2)
+
 def test_active_connection(testcase, uuid, device_path, delete_conn = True):
     path = dbus_network.ActivateConnection(uuid, "/")
     testcase.assertIsNotNone(path)
-    time.sleep(5) # wait for connection connected
+    time.sleep(10) # wait for connection connected
     testcase.assertTrue(is_connection_connected(uuid))
     dbus_network.DeactivateConnection(uuid)
     if delete_conn:

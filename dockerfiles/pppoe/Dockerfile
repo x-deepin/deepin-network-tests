@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y pppoe iptables
 COPY ./etc/pppoe-ip-range /etc/pppoe-ip-range
 COPY ./etc/ppp/pppoe-server-options /etc/ppp/pppoe-server-options
 COPY ./etc/ppp/chap-secrets  /etc/ppp/chap-secrets
+RUN chmod 0600 /etc/ppp/chap-secrets
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod 0700 /entrypoint.sh

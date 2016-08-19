@@ -76,4 +76,5 @@ router-setup-wireless-wpa-eap:
 	$(PLAYBOOK_CMD) ./ansible/tasks/router_setup_wireless_wpa_eap.yml
 
 run-tests:
+	@echo "for special test suit, please run ./test_network_xxx.py or python3 -m unittest test_network_xxx.TestClaass.test_method"
 	./tests/main.py

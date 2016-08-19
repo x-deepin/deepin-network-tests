@@ -21,7 +21,6 @@ class TestNetworkVpnPptp(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-pptp")
-        pass
 
     def test_backend(self):
         session_path = utils_dbus.create_connection('vpn-pptp', '/')
@@ -43,7 +42,6 @@ class TestNetworkVpnPptpNoMppe(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-pptp-no-mppe")
-        pass
 
     def test_backend(self):
         session_path = utils_dbus.create_connection('vpn-pptp', '/')

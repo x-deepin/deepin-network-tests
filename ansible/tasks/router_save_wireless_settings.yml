@@ -2,4 +2,4 @@
   gather_facts: false
   tasks:
   - name: Save OpenWRT wireless settings
-    raw: cp /etc/config/wireless /etc/config/wireless.bak
+    raw: if [ ! -f /etc/config/wireless.bak ]; then cp /etc/config/wireless /etc/config/wireless.bak; fi

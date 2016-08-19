@@ -21,12 +21,20 @@ class TestNetworkPppoe(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-pppoe")
-        pass
+
+    def setUp(self):
+        # disconnect wired connection
+        utils_dbus.disconnect_default_wired_device()
+
+    def tearDown(self):
+        # restore to default wired connection
+        utils_dbus.connect_default_wired_device()
 
     def test_backend(self):
         session_path = utils_dbus.create_connection('pppoe', '/')
         dbus_session = ConnectionSession('com.deepin.daemon.Network', session_path)
         uuid = dbus_session.Uuid
+        dbus_session.SetKey('pppoe', 'service', json.dumps(accounts.pppoe_service))
         dbus_session.SetKey('pppoe', 'username', json.dumps(accounts.pppoe_username))
         dbus_session.SetKey('pppoe', 'password', json.dumps(accounts.pppoe_password))
         self.assertTrue(dbus_session.Save())

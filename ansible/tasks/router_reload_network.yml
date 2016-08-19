@@ -3,3 +3,5 @@
   tasks:
   - name: Reload OpenWRT network service
     raw: /etc/init.d/network reload
+  - name: Wait for network reload
+    raw: sleep 5

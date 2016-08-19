@@ -4,6 +4,7 @@
 import utils
 
 # pppoe
+pppoe_service = 'isp'
 pppoe_username = 'test'
 pppoe_password = 'test'
 
@@ -40,3 +41,16 @@ vpn_strongswan_clientcert = utils.get_abs_path() + '/../dockerfiles/vpn-strongsw
 vpn_strongswan_clientkey = utils.get_abs_path() + '/../dockerfiles/vpn-strongswan/etc/ipsec.d/private/client.key'
 vpn_strongswan_username = 'test'
 vpn_strongswan_password = 'test'
+
+# router info
+router_wireless_ssid = 'deepin-network-test'
+router_wireless_wep_password = '12345'
+router_wireless_wpa_psk_password = '12345678'
+
+# freeradius
+freeradius_identity = 'test'
+freeradius_password = 'test'
+freeradius_cacert = utils.get_abs_path() + '/../dockerfiles/freeradius/etc/freeradius/certs/ca.pem'
+freeradius_clientcert = utils.get_abs_path() + '/../dockerfiles/freeradius/etc/freeradius/certs/client.pem'
+freeradius_clientkey = utils.get_abs_path() + '/../dockerfiles/freeradius/etc/freeradius/certs/client.key'
+freeradius_clientpassword = 'test'

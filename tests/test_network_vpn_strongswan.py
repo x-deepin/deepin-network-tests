@@ -21,7 +21,6 @@ class TestNetworkVpnStrongswan(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-strongswan")
-        pass
 
     def test_backend_strongswan_privatekey(self):
         session_path = utils_dbus.create_connection('vpn-strongswan', '/')

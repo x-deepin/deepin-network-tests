@@ -21,7 +21,6 @@ class TestNetworkVpnL2tp(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-l2tp")
-        pass
 
     # TODO
     @unittest.skip("networkmanager-l2tp in trouble now")
@@ -43,7 +42,6 @@ class TestNetworkVpnL2tpIpsec(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-l2tp-ipsec")
-        pass
 
     # TODO
     @unittest.skip("networkmanager-l2tp in trouble now")
