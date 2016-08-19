@@ -1,13 +1,16 @@
-**描述**: dde-daemon 网络后端自动化测试工具集合
+**描述**: deepin 网络模块自动化测试
 
-主要用于测试 deepin 网络后端基本功能是否异常，包括测试有线连接，无线连
-接，PPPoE 及 VPN 等。
+配合 ansbile/docker/openwrt 等技术，实现 deepin 网络功能自动化测试，以确保上游升级网络组件时相关功能正常。目前已经涵盖的内容包括：
 
-由于测试网络功能需要搭建配套的服务，同时同一类型服务为测试不同的参数可
-能需要配置多次，为方便部署，配合 Ansible 和 Docker 进行管理以方便自动
-化测试。另外部分网络功能如无线连接、802.1X 企业级加密、PPPoE 无法通过虚
-拟机、Docker 等容器技术进行测试，还需要 OpenWRT 路由器（router）和额外
-的主机（server）进行配合，具体情况详见下面的使用说明。
+- pppoe
+- vpn-l2tp (l2tp/ipsec)
+- vpn-openconnect (cert/plain)
+- vpn-openvpn (password/tls)
+- vpn-pptp (mppe/no-mppe)
+- vpn-strongswan (privatekey/eap)
+- wireless-wep
+- wireless-wpa-psk
+- wireless-wpa-eap (tls/ttls/peap)
 
 ## 依赖
 
@@ -29,14 +32,6 @@
 
 ## 准备阶段
 
-1. 修复 ssh 密钥权限
-
-   执行 git clone 操作后, keys/id_rsa 文件权限会丢失, 应首先执行下面的
-   操作进行修复, 否则 Ansible 无法正常使用
-   ```
-   $ make prepare-fix-keys-perm
-   ```
-
 1. 配置 hosts 文件
 
    编辑 hosts.example，将 server 和 router 对应的地址补充完整，然后保
@@ -44,6 +39,14 @@
 
    ```
    $ cp hosts.example hosts
+   ```
+
+1. 修复 SSH 密钥权限
+
+   执行 git clone 操作后, keys/id_rsa 文件权限会丢失, 应首先执行下面的
+   操作进行修复, 否则 Ansible 无法正常使用
+   ```
+   $ make prepare-fix-keys-perm
    ```
 
 1. 配置路由器 SSH（可选，如果没有 OpenWRT 路由器可以跳过，执行测试时会忽略
@@ -138,48 +141,41 @@
    $ make list-services
    ```
 
-## TODO 运行自动化测试
+## 运行自动化测试
 
+执行所有测试
 ```
-$ make test
-```
-
-## TODO 手动测试
-
-帐号信息, 网络拓扑结构等具体可参考 dockerfiles 目录下对应的README, 比如 PPPoE
-
-## 测试主机分布特别说明
-
-测试无线网络功能时需要搭建 OpenWRT 路由器，测试 802.1X 企业级加密和 PPPoE
-功能则还需要额外的服务器主机配合，此外的情况比如测试 VPN 则只需要测试
-机单机也可完成测试，这种情况下网络服务要部署到测试机上，对应上面的配置
-则是把 hosts server 地址改为 `127.0.0.1`，执行 make 命令时添加
-`ANSIBLE_LOCAL=1` 选项，如
-
-```
-$ make deploy-services ANSIBLE_LOCAL=1
-$ make test ANSIBLE_LOCAL=1
+$ make run-tests
 ```
 
-## TODO 测试用例集合
+执行单个测试
+```
+$ cd tests
+$ ./test_network_xxx.py
+$ python3 -m unittest test_network_xxx.TestClaass.test_method
+```
 
+## 手动测试（用于辅助 QA 人员测试网络功能）
 
-- wired
-- wired-static-ip
-- wired-802.1x
-- wireless
-- wireless-static-ip
-- wireless-802.1x
-- pppoe
-- vpn-l2tp
-- vpn-strongswan
-- vpn-pptp
-- vpn-pptp-use-mppe
-- vpn-openvpn
-- vpn-openvpn-peap
-- vpn-openvpn-ttls
-- vpn-openconnect
-- vpn-vpnc
+手动测试时，可以跳过准备阶段中配置 SSH 相关的步骤，例如要测试 vpn-pptp，
+找一台机器作为服务器，运行下面的命令启动 PPTP 服务
+```
+$ make deploy-service-vpn-pptp ANSIBLE_LOCAL=1
+$ make start-service-vpn-pptp ANSIBLE_LOCAL=1
+```
+
+然后到测试机手动创建 VPN 连接进行测试，测试过程中用到的帐号等信息可参
+考 dockerfiles 目录下对应的 README 文档。
+
+测试完成后到服务器关闭 PPTP 服务
+```
+$ make stop-service-vpn-pptp ANSIBLE_LOCAL=1
+```
+
+## 安全风险
+
+为实现公司 lava 自动化测试，目前 SSH 密钥也在 git 版本控制下，为降低安
+全风险，需要涉及的的主机不连接外网或不要将该项目同步到外部。
 
 ## License
 

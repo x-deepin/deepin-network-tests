@@ -2,8 +2,8 @@
 # careful, please use ip address instead of host name, or
 # vpn-strongswan could not connect successful.
 [server]
-192.168.1.64
+192.168.1.100
 
 # The OpenWRT router address, if not just left empty
 [router]
-192.168.1.1 ansible_port=1022
+#192.168.1.1 ansible_port=22
