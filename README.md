@@ -15,7 +15,7 @@
 ## 依赖
 
 **测试机**
-- ansible
+- ansible>=2.1.0
 - [dde-daemon](https://github.com/linuxdeepin/dde-daemon)
 - network-manager
 - python2
@@ -74,13 +74,14 @@
    # systemctl start docker.socket
    ```
 
-   启用 root 用户
+   启用 root 用户，即为 root 用户设置密码
 
    ```
-   # password root
+   # passwd root
    ```
 
-   在测试机运行下面的命令将公钥添加到服务器
+   在测试机运行下面的命令将公钥添加到服务器，会提示输入服务机的 root
+   密码
 
    ```
    $ make prepare-ssh
@@ -116,7 +117,8 @@
 
    ```
    # opkg update
-   # opkg install openssh-sftp-server python wpad
+   # opkg install openssh-sftp-server python
+   # opkg install --force-depends wpad
    ```
 
 1. 部署 PPPoE、VPN、FreeRadius 等网络服务到服务器
