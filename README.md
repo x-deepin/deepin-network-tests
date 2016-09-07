@@ -98,13 +98,14 @@
    **测试机**
 
    ```
-   # apt-get install ansible
+   # apt-get install docker.io python-docker
+   # apt-get install ansible network-manager-strongswan
    ```
 
    **服务器**
 
    ```
-   # apt-get install docker.io python2-docker
+   # apt-get install docker.io python-docker
    ```
 
    因为 Ansible 依赖 python2，如果缺少相应包，也可以通过 pip2 来安装
@@ -123,6 +124,24 @@
 
 1. 部署 PPPoE、VPN、FreeRadius 等网络服务到服务器
 
+   **方法一：**
+   推荐直接从hub.deepin.io docker仓库pull：
+   ```
+   $ docker pull hub.deepin.io/ubuntu:16.10
+   $ docker pull hub.deepin.io/ubuntu/freeradius:latest
+   $ docker pull hub.deepin.io/ubuntu/pppoe:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-l2tp-ipsec:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-l2tp:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-openconnect-cert:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-openconnect-plain:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-openvpn-password:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-openvpn-tls:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-pptp:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-pptp-no-mppe:latest
+   $ docker pull hub.deepin.io/ubuntu/vpn-strongswan:latest
+   ```
+
+   **方法二：**
    ```
    $ make deploy-services
    ```
