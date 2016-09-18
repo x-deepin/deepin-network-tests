@@ -9,7 +9,14 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --publish-all vpn-openvpn-tls
+# docker run --detach --net host --privileged --publish-all --name running-vpn-openvpn-tls vpn-openvpn-tls
+```
+
+停止
+
+```
+# docker stop running-vpn-openvpn-tls
+# docker rm -f running-vpn-openvpn-tls
 ```
 
 帐户信息

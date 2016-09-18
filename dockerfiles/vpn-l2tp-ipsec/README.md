@@ -9,7 +9,14 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --publish-all vpn-l2tp-ipsec
+# docker run --detach --net host --privileged --publish-all --name running-vpn-l2tp-ipsec vpn-l2tp-ipsec
+```
+
+停止
+
+```
+# docker stop running-vpn-l2tp-ipsec
+# docker rm -f running-vpn-l2tp-ipsec
 ```
 
 帐户信息

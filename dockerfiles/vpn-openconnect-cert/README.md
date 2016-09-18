@@ -9,7 +9,14 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --publish-all vpn-openconnect-cert
+# docker run --detach --net host --privileged --publish-all --name running-vpn-openconnect-cert vpn-openconnect-cert
+```
+
+停止
+
+```
+# docker stop running-vpn-openconnect-cert
+# docker rm -f running-vpn-openconnect-cert
 ```
 
 帐户信息

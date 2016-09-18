@@ -1,6 +1,8 @@
 **描述**: deepin 网络模块自动化测试
 
-配合 ansbile/docker/openwrt 等技术，实现 deepin 网络功能自动化测试，以确保上游升级网络组件时相关功能正常。目前已经涵盖的内容包括：
+配合 ansbile/docker/openwrt 等技术，实现 deepin 网络功能自动化测试，以
+确保上游升级网络组件时相关功能正常。目前已经涵盖的内容包括（VPNC 需要
+VPN 3000 Concentrator 硬件支持，暂时无法实现自动化测试）：
 
 - pppoe
 - vpn-l2tp (l2tp/ipsec)
@@ -54,7 +56,7 @@
 
    通过浏览器进入路由器，进入 System->Administration 页面，首先设置
    Router Password，否则无法通过 ssh 登录路由器，然后将公钥文件
-   （./keys/id_rsa.pub）的内容复制到 SSH-Keys 下面的文本框，然后单击
+   `./keys/id_rsa.pub` 的内容复制到 SSH-Keys 下面的文本框，然后单击
    Save&Apply 进行保存。设置成功后，执行下面的命令可以不需要密码直接登
    录路由器：
 
@@ -64,8 +66,8 @@
 
 1. 配置服务器 SSH
 
-   配置 ssh 服务端，编辑 /etc/ssh/sshd_config 打开选项
-   'PermitRootLogin yes'，后开启 ssh、docker 服务
+   配置 ssh 服务端，编辑 `/etc/ssh/sshd_config` 打开选项'PermitRootLogin
+   yes'，后开启 ssh、docker 服务
 
    ```
    # systemctl enable ssh.socket
@@ -80,8 +82,9 @@
    # passwd root
    ```
 
-   在测试机运行下面的命令将公钥添加到服务器，会提示输入服务机的 root
-   密码
+   在测试机运行下面的命令将公钥添加到服务器，会提示输入服务机的 root密
+   码，当然也可以手动将 `./ansible/keys/id_rsa` 公钥内容复制到服务器
+   `/root/.ssh/authorized_keys` 文件里
 
    ```
    $ make prepare-ssh
@@ -178,25 +181,69 @@ $ python3 -m unittest test_network_xxx.TestClaass.test_method
 
 ## 手动测试（用于辅助 QA 人员测试网络功能）
 
-手动测试时，可以跳过准备阶段中配置 SSH 相关的步骤，例如要测试 vpn-pptp，
-找一台机器作为服务器，运行下面的命令启动 PPTP 服务
+### 手动启动 docker 服务示例
+
+手动测试时，可以跳过准备阶段中配置 SSH 相关的步骤，找一台机器作为服务
+器, 直接部署相应的 docker 服务即可，例如要测试 vpn-pptp，可以运行下面
+的命令来启动和关闭 PPTP 服务
 ```
 $ make deploy-service-vpn-pptp ANSIBLE_LOCAL=1
 $ make start-service-vpn-pptp ANSIBLE_LOCAL=1
-```
-
-然后到测试机手动创建 VPN 连接进行测试，测试过程中用到的帐号等信息可参
-考 dockerfiles 目录下对应的 README 文档。
-
-测试完成后到服务器关闭 PPTP 服务
-```
 $ make stop-service-vpn-pptp ANSIBLE_LOCAL=1
 ```
+
+也可以通过 dockerfile 手动部署服务
+```
+$ cd dockerfiles/vpn-pptp/
+$ docker build --tag vpn-pptp .
+$ docker run --detach --net host --privileged --publish-all --name running-vpn-pptp vpn-pptp
+$ docker stop running-vpn-pptp
+$ docker rm -f running-vpn-pptp
+```
+
+如果可以访问 hub.deepin.io，还可以直接拉取镜像
+```
+$ docker pull hub.deepin.io/ubuntu/vpn-pptp:latest
+```
+
+然后到测试机创建 VPN 连接进行测试，测试过程中用到的帐号等信息可参
+考 dockerfiles 目录下对应的 README 文档。
+
+### 手动测试注意事项及相关技巧
+
+1. 有些 docker 配置服务类型相同但选项不同，如 vpn-pptp 和
+   vpn-pptp-no-mppe，这种同类型服务只能运行一个实例，而且要求测试机创
+   建网络连接时匹配相应的选项
+
+1. 有些 docker 服务提供多种认证方式，如 vpn-strongswan 同时提供 EAP 和
+   Private Key 两种认证方式，需要分别测试
+
+1. 有些 docker 配置启动服务时需要传递参数，如 pppoe 和 vpn-strongswan，
+   需要详细阅读对应的 README 文档，否则无法测试成功
+
+1. pppoe 测试时需要确保服务器和测试机在同一局域网，另外服务器和测试机
+   可以直连测试而无需经过路由器，具体做法是将两台电脑通过网线直连，然
+   后分别在两端设置静态 IP 以便互访
+
+1. 测试 vpn-l2tp-ipsec 时可能出现连接失败的情况，可以手动运行 `sudo
+   ipsec stop` 或重新创建连接进行修复
+
+1. 测试 vpn-openconnect-plain 需要注意，创建连接时只需要输入 gateway
+   即服务器地址，激活连接时会弹出对话框输入用户名密码
+
+1. 测试无线网络企业级加密(EAP/802.1X)时需要到无线路由器设置认证类型为
+   WPA2-EAP（有些路由器不支持 WiFi 企业级加密，推荐使用 OpenWRT 路由器，
+   需要安装 wpad 代替 wpad-mini），并设置 freeradius 服务器信息（一般
+   只需要添入服务器地址即可，其他选项保持默认，具体因路由器而异），因
+   为 freeradius dockerfile 配置中支持 tls/ttls/peap 三种认证类型，所
+   以需要分别测试
+
 
 ## 安全风险
 
 为实现公司 lava 自动化测试，目前 SSH 密钥也在 git 版本控制下，为降低安
-全风险，需要涉及的的主机不连接外网或不要将该项目同步到外部。
+全风险，需要涉及的的主机不连接外网或不要将该项目同步到外部，或者运行
+`make gen-ssh-keys` 生成新的密钥。
 
 ## License
 

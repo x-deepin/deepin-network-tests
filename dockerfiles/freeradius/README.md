@@ -9,7 +9,14 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --publish-all freeradius
+# docker run --detach --net host --privileged --publish-all --name running-freeradius freeradius
+```
+
+停止
+
+```
+# docker stop running-freeradius
+# docker rm -f running-freeradius
 ```
 
 帐户信息

@@ -9,7 +9,14 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --publish-all vpn-pptp
+# docker run --detach --net host --privileged --publish-all --name running-vpn-pptp vpn-pptp
+```
+
+停止
+
+```
+# docker stop running-vpn-pptp
+# docker rm -f running-vpn-pptp
 ```
 
 帐户信息

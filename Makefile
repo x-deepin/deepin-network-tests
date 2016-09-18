@@ -22,6 +22,12 @@ list-services:
 get-ansible-server-host:
 	@$(ANSIBLE_CMD) server --list-hosts | sed 1d | head -1 | sed 's/^ \+//'
 
+gen-ssh-keys: do-gen-ssh-keys prepare-fix-keys-perm
+
+do-gen-ssh-keys:
+	rm -f ./ansible/keys/id_rsa ./ansible/keys/id_rsa.pub
+	ssh-keygen -t rsa -C "deepin-qa-team" -N "" -f ./ansible/keys/id_rsa
+
 prepare-fix-keys-perm:
 	@echo "=> Fix identity file permission"
 	chmod 0600 ./ansible/keys/id_rsa

@@ -9,7 +9,14 @@
 运行
 
 ```
-# docker run --detach --net host --privileged --publish-all vpn-openvpn-password
+# docker run --detach --net host --privileged --publish-all --name running-vpn-openvpn-password vpn-openvpn-password
+```
+
+停止
+
+```
+# docker stop running-vpn-openvpn-password
+# docker rm -f running-vpn-openvpn-password
 ```
 
 帐户信息
