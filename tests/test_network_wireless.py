@@ -13,6 +13,10 @@ from dbus_gen.com_deepin_daemon_Network_ConnectionSession import ConnectionSessi
 
 dbus_network = Network('com.deepin.daemon.Network', '/com/deepin/daemon/Network')
 
+def setUpModule():
+    # ensure target network device enabled
+    dbus_network.EnableDevice(utils_dbus.get_default_wireless_device(), True)
+
 class TestNetworkWirelessWep(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

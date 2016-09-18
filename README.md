@@ -20,7 +20,7 @@ VPN 3000 Concentrator 硬件支持，暂时无法实现自动化测试）：
 - ansible>=2.1.0
 - [dde-daemon](https://github.com/linuxdeepin/dde-daemon)
 - network-manager
-- python2
+- python3
 
 **服务器**
 - docker.io
@@ -101,8 +101,7 @@ VPN 3000 Concentrator 硬件支持，暂时无法实现自动化测试）：
    **测试机**
 
    ```
-   # apt-get install docker.io python-docker
-   # apt-get install ansible network-manager-strongswan
+   # apt-get install ansible python3-dbus
    ```
 
    **服务器**
@@ -225,7 +224,7 @@ $ docker pull hub.deepin.io/ubuntu/vpn-pptp:latest
    可以直连测试而无需经过路由器，具体做法是将两台电脑通过网线直连，然
    后分别在两端设置静态 IP 以便互访
 
-1. 测试 vpn-l2tp-ipsec 时可能出现连接失败的情况，可以手动运行 `sudo
+1. 测试 vpn-l2tp-ipsec/vpn-strongswan 可能会出现连接失败的情况，可以手动运行 `sudo
    ipsec stop` 或重新创建连接进行修复
 
 1. 测试 vpn-openconnect-plain 需要注意，创建连接时只需要输入 gateway
