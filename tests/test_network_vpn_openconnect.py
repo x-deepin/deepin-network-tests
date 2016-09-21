@@ -22,6 +22,8 @@ class TestNetworkVpnOpenconnectCert(unittest.TestCase):
     def tearDownClass(cls):
         utils.run_make_cmd("stop-service-vpn-openconnect-cert")
 
+    # TODO
+    @unittest.skip("openconnect/cert may popup dialog to accept certs")
     def test_backend(self):
         session_path = utils_dbus.create_connection('vpn-openconnect', '/')
         dbus_session = ConnectionSession('com.deepin.daemon.Network', session_path)
