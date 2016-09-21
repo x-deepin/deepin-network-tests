@@ -141,6 +141,19 @@ VPN 3000 Concentrator 硬件支持，暂时无法实现自动化测试）：
    $ docker pull hub.deepin.io/ubuntu/vpn-pptp:latest
    $ docker pull hub.deepin.io/ubuntu/vpn-pptp-no-mppe:latest
    $ docker pull hub.deepin.io/ubuntu/vpn-strongswan:latest
+
+   # fix image names
+   $ docker tag hub.deepin.io/ubuntu/freeradius:latest freeradius
+   $ docker tag hub.deepin.io/ubuntu/pppoe:latest pppoe
+   $ docker tag hub.deepin.io/ubuntu/vpn-l2tp-ipsec:latest vpn-l2tp-ipsec
+   $ docker tag hub.deepin.io/ubuntu/vpn-l2tp:latest vpn-l2tp
+   $ docker tag hub.deepin.io/ubuntu/vpn-openconnect-cert:latest vpn-openconnect-cert
+   $ docker tag hub.deepin.io/ubuntu/vpn-openconnect-plain:latest vpn-openconnect-plain
+   $ docker tag hub.deepin.io/ubuntu/vpn-openvpn-password:latest vpn-openvpn-password
+   $ docker tag hub.deepin.io/ubuntu/vpn-openvpn-tls:latest vpn-openvpn-tls
+   $ docker tag hub.deepin.io/ubuntu/vpn-pptp:latest vpn-pptp
+   $ docker tag hub.deepin.io/ubuntu/vpn-pptp-no-mppe:latest vpn-pptp-no-mppe
+   $ docker tag hub.deepin.io/ubuntu/vpn-strongswan:latest vpn-strongswan
    ```
 
    **方法二：**
@@ -228,7 +241,7 @@ $ docker pull hub.deepin.io/ubuntu/vpn-pptp:latest
    ipsec stop` 或重新创建连接进行修复
 
 1. 测试 vpn-openconnect-plain 需要注意，创建连接时只需要输入 gateway
-   即服务器地址，激活连接时会弹出对话框输入用户名密码
+   和 ca 证书即可，激活连接时会弹出对话框输入用户名密码
 
 1. 测试无线网络企业级加密(EAP/802.1X)时需要到无线路由器设置认证类型为
    WPA2-EAP（有些路由器不支持 WiFi 企业级加密，推荐使用 OpenWRT 路由器，
