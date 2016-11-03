@@ -23,7 +23,7 @@
 
 ```
 认证方式: plain (需要弹出 openconnect auth 对话框输入用户名密码)
-CA 证书: ./etc/ocserv/ca.crt
+CA 证书: ./etc/ocserv/ca.crt (可选)
 用户名: test
 密码: test
 ```
